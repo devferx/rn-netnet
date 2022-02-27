@@ -1,17 +1,41 @@
-import React, {useEffect} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import axios from 'axios';
+import React, {useEffect, useState} from 'react';
+import {ScrollView, StyleSheet, Text} from 'react-native';
+import {movieDBApi} from '../api/movieDB';
+import {Category} from '../components/CategoryMovie';
+import {Movie, TvShow} from '../interfaces/movieDb';
 
 export const HomeScreen = () => {
+  const [popularMovies, setpopularMovies] = useState<Movie[]>([]);
+  const [upcomingMovies, setUpcomingMovies] = useState<Movie[]>([]);
+  const [topRatedMovies, setTopRatedMovies] = useState<Movie[]>([]);
+  const [popularTvShows, setPopularTvShows] = useState<TvShow[]>([]);
+
   useEffect(() => {
-    axios.get('https://jsonplaceholder.typicode.com/todos/1').then(response => {
-      console.log(response.data);
+    movieDBApi.getPopular().then(res => {
+      setpopularMovies(res.results);
     });
-  });
+
+    movieDBApi.getUpcoming().then(res => {
+      setUpcomingMovies(res.results);
+    });
+
+    movieDBApi.getTopRated().then(res => {
+      setTopRatedMovies(res.results);
+    });
+
+    movieDBApi.getPopularTvShows().then(res => {
+      setPopularTvShows(res.results);
+    });
+  }, []);
+
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.title}>Home Screen</Text>
-    </View>
+      <Category title="Populares en NetNet" items={popularMovies} />
+      <Category title="Series en NetNet" items={popularTvShows} />
+      <Category title="Aclamados por la critica" items={topRatedMovies} />
+      <Category title="Proximamente en Netnet" items={upcomingMovies} />
+    </ScrollView>
   );
 };
 
@@ -22,6 +46,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'white',
-    fontSize: 30,
+    fontSize: 32,
+    marginLeft: 16,
   },
 });
