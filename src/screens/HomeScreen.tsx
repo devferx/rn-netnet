@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text} from 'react-native';
 import {movieDBApi} from '../api/movieDB';
 import {Category} from '../components/CategoryMovie';
+import {Hero} from '../components/Hero';
 import {Movie, TvShow} from '../interfaces/movieDb';
 
 export const HomeScreen = () => {
@@ -30,9 +31,9 @@ export const HomeScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>Home Screen</Text>
+      <Hero movie={popularMovies[0]} />
+      <Category title="Recomendaciones" items={popularTvShows} />
       <Category title="Populares en NetNet" items={popularMovies} />
-      <Category title="Series en NetNet" items={popularTvShows} />
       <Category title="Aclamados por la critica" items={topRatedMovies} />
       <Category title="Proximamente en Netnet" items={upcomingMovies} />
     </ScrollView>

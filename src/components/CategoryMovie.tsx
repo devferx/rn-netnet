@@ -18,6 +18,7 @@ export const Category = ({title, items}: CategoryProps) => {
         horizontal
         keyExtractor={({id}) => id.toString()}
         showsHorizontalScrollIndicator={false}
+        onEndReached={() => {}}
         renderItem={({item, index}) => (
           // eslint-disable-next-line react-native/no-inline-styles
           <MovieCard movie={item} style={{marginLeft: index === 0 ? 16 : 0}} />
