@@ -1,29 +1,23 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, Text} from 'react-native';
+import {ScrollView, StyleSheet} from 'react-native';
+
 import {movieDBApi} from '../api/movieDB';
-import {Category} from '../components/CategoryMovie';
+import {Category} from '../components/Category';
 import {Hero} from '../components/Hero';
-import {Movie, TvShow} from '../interfaces/movieDb';
+import {TvShow} from '../interfaces/movieDb';
+import {useGetMovies} from '../hooks/useGetMovies';
 
 export const HomeScreen = () => {
-  const [popularMovies, setpopularMovies] = useState<Movie[]>([]);
-  const [upcomingMovies, setUpcomingMovies] = useState<Movie[]>([]);
-  const [topRatedMovies, setTopRatedMovies] = useState<Movie[]>([]);
+  const {movies: popularMovies, getNextPage: getNextPagePopularMovies} =
+    useGetMovies('/popular');
+  const {movies: topRatedMovies, getNextPage: getNextPageTopRatedMovies} =
+    useGetMovies('/top_rated');
+  const {movies: upcomingMovies, getNextPage: getNextPageUpcomingMovies} =
+    useGetMovies('/upcoming');
+
   const [popularTvShows, setPopularTvShows] = useState<TvShow[]>([]);
 
   useEffect(() => {
-    movieDBApi.getPopular().then(res => {
-      setpopularMovies(res.results);
-    });
-
-    movieDBApi.getUpcoming().then(res => {
-      setUpcomingMovies(res.results);
-    });
-
-    movieDBApi.getTopRated().then(res => {
-      setTopRatedMovies(res.results);
-    });
-
     movieDBApi.getPopularTvShows().then(res => {
       setPopularTvShows(res.results);
     });
@@ -33,9 +27,21 @@ export const HomeScreen = () => {
     <ScrollView style={styles.container}>
       <Hero movie={popularMovies[0]} />
       <Category title="Recomendaciones" items={popularTvShows} />
-      <Category title="Populares en NetNet" items={popularMovies} />
-      <Category title="Aclamados por la critica" items={topRatedMovies} />
-      <Category title="Proximamente en Netnet" items={upcomingMovies} />
+      <Category
+        title="Populares en NetNet"
+        items={popularMovies}
+        getNextPage={getNextPagePopularMovies}
+      />
+      <Category
+        title="Aclamados por la critica"
+        items={topRatedMovies}
+        getNextPage={getNextPageTopRatedMovies}
+      />
+      <Category
+        title="Proximamente en Netnet"
+        items={upcomingMovies}
+        getNextPage={getNextPageUpcomingMovies}
+      />
     </ScrollView>
   );
 };

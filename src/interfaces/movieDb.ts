@@ -5,6 +5,13 @@ export interface GetPopularResponse {
   total_results: number;
 }
 
+export interface MoviesResponse {
+  page: number;
+  results: Movie[];
+  total_pages: number;
+  total_results: number;
+}
+
 export interface GetUpcomingResponse {
   dates: Dates;
   page: number;

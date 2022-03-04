@@ -6,12 +6,12 @@ import {
   View,
   useWindowDimensions,
   TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import {Movie} from '../interfaces/movieDb';
+import {Loading} from './Loading';
 
 interface HeroProps {
   movie: Movie | null | undefined;
@@ -22,13 +22,12 @@ export const Hero = ({movie}: HeroProps) => {
 
   if (!movie) {
     return (
-      <View
+      <Loading
         style={{
           ...styles.loadingContainer,
           height: height * 0.8,
-        }}>
-        <ActivityIndicator size={32} color="#D22F26" />
-      </View>
+        }}
+      />
     );
   }
 

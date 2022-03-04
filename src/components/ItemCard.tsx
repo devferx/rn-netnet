@@ -1,14 +1,15 @@
 import React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import type {ViewStyle} from 'react-native';
+
 import {Movie, TvShow} from '../interfaces/movieDb';
 
-interface MovieCardProps {
+interface ItemCardProps {
   movie: Movie | TvShow;
   style?: ViewStyle;
 }
 
-export const MovieCard = ({movie, style = {}}: MovieCardProps) => {
+export const ItemCard = ({movie, style = {}}: ItemCardProps) => {
   return (
     <View
       style={{
